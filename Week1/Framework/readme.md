@@ -4,9 +4,7 @@
 1. `Library`와 `Framework`의 차이 간단하게 서술하기. (100자 내외)
 2. `Deep Learning`과 `Machine Learning`의 차이 간단하게 서술하기
 
-를 자유형식으로 수행하여 업로드하기
-
-⚠️ Notion 등으로 작성하는 경우, 반드시 공유 권한을 확인해주시기 바랍니다.
+를 markdown 형식으로 업로드하기
 
 ## 제출 방법
 1. 본인의 이름으로 branch를 생성합니다.
