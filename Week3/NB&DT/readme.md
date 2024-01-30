@@ -5,7 +5,7 @@
 ### 과제1) Naïve Bayes Classification
 -----
 
-- [ ] `week3_NaiveBayes_assignment` 파일에서 과제를 진행하시면 됩니다.
+- [ ] `week3_NaiveBayes_assignment.ipynb` 파일에서 과제를 진행하시면 됩니다.
 
 `test_file.xlsx`의 데이터를 활용하여 빈칸을 채워주세요.
 중간에 서술형으로 써야 하는 항목들이 있으니, 편하게 아시는 대로 작성하면 됩니다.
