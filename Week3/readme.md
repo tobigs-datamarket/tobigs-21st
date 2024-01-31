@@ -17,7 +17,7 @@
 
 ## Part 2. Neural Network Basic
 
-- [ ] `week3_NeuralNetworkBasic_assignment1.ipynb` 파일의 문제들을 상세한 풀이과정과 함께 풀기
+- [ ] `week3_NeuralNetworkBasic_assignment1.pdf` 파일의 문제들을 상세한 풀이과정과 함께 풀기
 - [ ] `week3_NeuralNetworkBasic_assignment2.ipynb` 파일에서 코드 실습하기
 
 ## 제출 방법
