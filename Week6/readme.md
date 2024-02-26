@@ -1,14 +1,20 @@
+# Week6. Time Series, Neural Network Advanced
 
-# Week6. Neural Network Advanced
+## Part 1. Time Series
 
-## 이론
+`Week6_Time Series Analysis_Assignment.ipynb`에서 주가 데이터를 가지고,
+
+- [ ] Box-Jenkins 방법론 과정을 따라 시계열분석 진행하고 결과 예측하기
+
+## Part 2. Neural Network Advanced
+### 이론
 
 다음의 내용을 주제로 하는 보고서 자유 형식으로 작성하기
 
 - [ ] 다양한 Learning Rate Scheduler 중 적어도 한 가지 소개하기 (A4 반 페이지 내외)
 - [ ] 강의에서 소개되지 않은 Training Error와 Generalization Error 사이 간극을 줄이는 방안 소개하기 (A4 반 페이지 내외)
 
-## 실습
+### 실습
 `NN_Adv_Assignment.ipynb`에,
 
 - [ ] 적절한 Optimization, Regularization, Initialization, Normalization 전략을 각각 최소 1개씩 수행하기
