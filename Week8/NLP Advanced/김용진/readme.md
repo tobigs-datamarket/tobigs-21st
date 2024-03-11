@@ -23,11 +23,13 @@ ex) prompt로 "Explain the moon landing to a 6 year old"를 SFT 모델에 여러
 4. 3에서 생성된 여러 답변을 labeler가 선호도에 따라서 순위를 매김  
 ex) "Explain the moon landing to a 6 year old"에 대해 A,B,C,D output이 존재할 때 labeler의 선호에 따라 D > C > A = B 와 같이 순위를 매김
 5. 4에서 만든 순위 dataset을 이용해서 Reward Model을 학습. Reward Model은 SFT 모델의 마지막 단을 없애고 layer를 추가해서 scalar output을 return 할 수 있게 함. 이 때 선호도가 높은 답변에 대해서는 높은 reward 값(scalar)이 나올 수 있도록 loss를 설계  
-ex) "Explain the moon landing to a 6 year old"에 대해 D > C > A = B 이면, prompt와 D가 Reward Model의 input으로 들어갔을 때는 높은 reward를, B가 들어갔을 때는 낮는 reward를 return  
-$$loss(\theta) = -\frac{1}{\begin{pmatrix}
+ex) "Explain the moon landing to a 6 year old"에 대해 D > C > A = B 이면, prompt와 D가 Reward Model의 input으로 들어갔을 때는 높은 reward를, B가 들어갔을 때는 낮는 reward를 return
+
+$$loss(\theta) = -\frac{1}{\begin{pmatrix} 
 K \\ 2
-\end{pmatrix}}E(x,y_w,y_l) \sim D[log(\sigma(r_\theta(x,y_w) - r_\theta(x,y_l)))]$$
-6. SFT 모델을 PPO라는 Reinforcement Learning 알고리즘을 통해 fine-tuning.  
+\end{pmatrix}}E(x,y_w,y_l) \sim D\[log(\sigma(r_\theta(x,y_w) - r_\theta(x,y_l)))\]$$
+
+7. SFT 모델을 PPO라는 Reinforcement Learning 알고리즘을 통해 fine-tuning.  
 6-1. Random한 prompt가 주어지면, 원하는 output을 생성(next token prediction)  
 6-2. 이 때 next token prediction을 Reinforcement Learning의 action으로 생각할 수 있고, 하나의 답변이 다 완성되는 것을 하나의 episode로 볼 수 있음  
 6-3. 6-2에서 나온 답변과, input prompt를 Reward Model에 넣어서 Reward를 prediction  
