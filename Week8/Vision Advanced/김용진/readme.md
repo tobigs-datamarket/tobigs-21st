@@ -20,6 +20,11 @@ attention처럼 어떤 pixel에 대해 adaptive하게 weight를 변화시킬 수
 위의 이유 중 1,2번은 Transformer에서 Multi-Head Self Attention(MHSA)를 통해 만들어 집니다. 따라서 CNN을 이용해서 최대한 MHSA의 효과를 내게하는 것이 논문이 목표가 됩니다.
 
 ## Deformable Convolution
+
+Deformable Convolution V1: https://arxiv.org/pdf/1703.06211.pdf  
+Deformable Convolution V2: https://arxiv.org/pdf/1811.11168.pdf
+
+
 Deformable Convolution 또한 논문 한편이고 v2가 존재하기 때문에 간단히만 설명하겠습니다.  
 기존 CNN같은 경우에는 어떤 pixel에 대해 3x3 kernel의 경우 9개의 pixel과 strict하게 convolution을 진행하는데, deformable convolution은 offset이라는 것을 정해 어떤 pixel과 가장 관련된 pixel을 예측하여 convolution을 진행합니다. 그림으로 보면 이해가 쉽습니다. 
 
