@@ -1,4 +1,5 @@
-# Week8. NLP Advanced
+# Week8. NLP Advanced, Vision Advanced
+## Part 1. NLP Advanced
 
 NLP와 관련된 논문을 1개 선정해, 분량, 포맷 제한 없이 리뷰를 작성하여 업로드해주세요!
 
@@ -11,6 +12,15 @@ NLP와 관련된 논문을 1개 선정해, 분량, 포맷 제한 없이 리뷰�
 - [ ] 이 논문을 토대로 한 future work에는 무엇이 있을 수 있는지
 
 가 반드시 포함되어야 합니다.
+
+## Part 2. Vision Advanced
+
+Vision Task에 Transformer를 활용한 모델 관련 논문을 하나 선택하여 리뷰 작성하기
+
+- 정규세션 강의자료에 있는 ViT나 Swin Transformer 모델도 좋고,
+- 본인이 평소에 알고 싶었던 모델 관련 논문을 선택하셔도 좋습니다.
+
+본인의 블로그나 노션, Word파일, PDF 등 방법은 상관 없습니다.
 
 ## 제출 방법
 1. 본인의 이름으로 branch를 생성합니다.
