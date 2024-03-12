@@ -1,0 +1,678 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Swin Transformer</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="53907267-5578-47d6-8fd9-7af443eae6da" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🏍️</span></div><h1 class="page-title"><strong>Swin Transformer</strong></h1><p class="page-description"></p><table class="properties"><tbody><tr class="property-row property-row-checkbox"><th><span class="icon property-icon"><svg role="graphics-symbol" viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0" class="typesCheckbox"><path d="M3.85742 14.4561H12.1357C13.6123 14.4561 14.3779 13.6904 14.3779 12.2344V3.91504C14.3779 2.45215 13.6123 1.69336 12.1357 1.69336H3.85742C2.38086 1.69336 1.61523 2.45215 1.61523 3.91504V12.2344C1.61523 13.6973 2.38086 14.4561 3.85742 14.4561ZM3.93945 13.1162C3.30371 13.1162 2.95508 12.7812 2.95508 12.1182V4.02441C2.95508 3.36133 3.30371 3.0332 3.93945 3.0332H12.0537C12.6826 3.0332 13.0381 3.36133 13.0381 4.02441V12.1182C13.0381 12.7812 12.6826 13.1162 12.0537 13.1162H3.93945ZM7.26855 11.3115C7.51465 11.3115 7.72656 11.1885 7.87012 10.9697L10.9258 6.19141C11.0146 6.04785 11.0967 5.88379 11.0967 5.72656C11.0967 5.3916 10.7959 5.16602 10.4746 5.16602C10.2695 5.16602 10.085 5.27539 9.94141 5.50781L7.24121 9.8418L5.96973 8.22168C5.80566 8.00977 5.6416 7.93457 5.43652 7.93457C5.10156 7.93457 4.8418 8.20117 4.8418 8.54297C4.8418 8.70703 4.90332 8.85742 5.01953 9.00098L6.63281 10.9697C6.81738 11.209 7.01562 11.3115 7.26855 11.3115Z"></path></svg></span>복습</th><td><div class="checkbox checkbox-off"></div></td></tr></tbody></table></header><div class="page-body"><figure id="feb28986-eb06-4471-b798-f4c2d28d63b6"><div class="source"><a href="Swin%20Transformer%2053907267557847d68fd97af443eae6da/swin.pdf">swin.pdf</a></div></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="09e375d3-8636-46f0-98dd-d4d51ad9b9d9"><div style="font-size:1.5em"><span class="icon">❓</span></div><div style="width:100%"><strong>1) Swin Transformer: Hierarchical Vision Transformer using Shifted Windows<br/> <br/></strong>주요 내용: 컴퓨터 비전을 위한 범용 백본(backbone)으로서 기능하는 새로운 Vision Transformer, Swin Transformer. 해당 모델은 계층적 구조를 특징으로 하며, 여러 크기의 비주얼 엔티티와 이미지의 고해상도라는 시각과 언어 사이의 도메인 차이를 극복하기 위함<strong><br/><br/>2) Swin Transformer V2: Scaling Up Capacity and Resolution<br/> <br/></strong>주요 내용: Swin Transformer의 성능을 확장하기 위한 연구로, 더 큰 모델 용량과 높은 해상도에서의 성능 증가가 목표이다. 해당 논문은 Vision Task에서 대규모 모델을 탐구하며 훈련 과정에서의 세 가지 주요 문제를 해결한다.<strong><br/><br/>3) Performance Evaluation of Swin Vision Transformer Model using Gradient Accumulation Optimization Technique<br/><br/></strong>주요 내용: Swin Transformer 모델의 성능을 평가하고, 그래디언트 누적 최적화 기술을 사용하여 모델 성능을 향상시키는 방안을 제시하는 연구</div></figure><h3 id="e9487b4b-422f-4459-b405-8417fa2cc522" class="">주요 방법론</h3><ul id="a9126788-40be-4177-b14e-e2b7bf4c0cca" class="bulleted-list"><li style="list-style-type:disc">계층적 구조: 이미지의 다양한 스케일을 효과적으로 처리하기 위해 계층적 구조를 도입</li></ul><ul id="e4196ea6-9670-4598-a0ae-f90d0e77e481" class="bulleted-list"><li style="list-style-type:disc">modified self-attention computation (Swin Transformer blocks)을  적용<br/>→ local 윈도우 내에서 self-attention computation을 진행하고, 이미지를 겹치지 않는 패치로 분할하여 계층적인 특징 맵을 구축<br/>이를 통해 효율성을 높이며, Window 간 상호 작용을 가능하게 하여 전체적인 관계를 학습할 수 있게 한다.<br/></li></ul><h3 id="1a34a9be-7a4a-4769-828f-d0f313823db2" class="">논문에서 풀고자 하는 문제</h3><p id="1e577be4-6fe1-48cb-a210-1c90bbb7d152" class="">언어에서 시작된 트랜스포머를 비전 분야로 전환하는 과정에서 발생하는 문제 해결</p><ul id="f6114cfb-95e5-40f8-a3b2-23790e5335a1" class="bulleted-list"><li style="list-style-type:disc">이미지 내에서 다양한 크기와 스케일을 가지는 시각적 객체에 의한 큰 변화 문제</li></ul><ul id="c1d88d24-3f83-4e1c-90dc-d83b5c46e4ce" class="bulleted-list"><li style="list-style-type:disc">이미지의 픽셀 해상도가 텍스트의 단어와 비교했을 때 높은 차이가 발생하는 문제</li></ul><h3 id="a3f9dde2-da02-45ec-ad47-bdce4703f2f0" class="">기존 연구들의 접근 방식</h3><p id="18f34c6f-4ea1-4261-afc5-5cbed2c6962a" class="">기존 연구들은 주로 CNN(Convolutional Neural Network) 기반의 아키텍처를 사용하여 시각적 특징을 추출하였으나, 이는 이미지의 전체적인 context를 파악하는데 한계가 있다.</p><h3 id="6fb4dc19-a6c8-4d71-a491-b34855422aa3" class=""><strong>이 논문의 강점</strong></h3><figure id="0594707b-8060-456d-bffe-1753066f18fc" class="image"><a href="Swin%20Transformer%2053907267557847d68fd97af443eae6da/Untitled.png"><img style="width:711px" src="Swin%20Transformer%2053907267557847d68fd97af443eae6da/Untitled.png"/></a></figure><ul id="81931cd9-e3f3-40a5-a696-dc7c74088462" class="bulleted-list"><li style="list-style-type:disc">효율적인 계산: Swin Transformer는 self-attention computation을 local로 제한하고, 그 효율을 증대시킨다.</li></ul><ul id="f576c3b2-1e20-4929-9c4a-8af744aafceb" class="bulleted-list"><li style="list-style-type:disc">확장성: 이 아키텍처는 다양한 크기와 해상도의 이미지에 적용 가능하여 모델의 범용성을 높인다.<br/>→ 선형 계산 복잡성을 유지하면서도 밀도 있는 예측을 가능하게 하며, <br/><code>다양한 비전 작업에 적용</code>할 수 있는 일반적인 백본 모델</li></ul><ul id="21ed8f1f-7b30-4047-a92c-4d45882e2d52" class="bulleted-list"><li style="list-style-type:disc">성능 향상: 계층적 구조와 Shifted Windows 기법을 통해 기존 방법보다 상당한 성능 향상 달성</li></ul><figure id="b0dd225c-bd1c-4e20-a5f7-a58c73300a8e" class="image"><a href="Swin%20Transformer%2053907267557847d68fd97af443eae6da/Untitled%201.png"><img style="width:806px" src="Swin%20Transformer%2053907267557847d68fd97af443eae6da/Untitled%201.png"/></a></figure><h3 id="40300be3-06a1-47cc-b089-6007253eefce" class="">모델 핵심 개념</h3><ol type="1" id="86dafec6-d2b3-4379-a36a-ab79055d2ea3" class="numbered-list" start="1"><li>Patch Merging<br/>각 Stage의 첫 번째 레이어에서, 인접한 Patch를 합쳐 feature dimension을 늘리는 방식으로 작동한다. 동시에, 이 과정은 spatial dimension을 줄여 계산 효율성을 높인다.<br/></li></ol><ul id="a6277bba-5d3d-4591-96eb-4e5caa12d271" class="bulleted-list"><li style="list-style-type:disc">Patch Partition: 입력 이미지를 4x4의 Patch로 나눈다. 해당 과정은 이미지를 고정된 크기의 Patch로 분할하여 Transformer에 적합한 입력 형태로 변환하는 역할을 한다.</li></ul><ul id="664bcc26-2bfe-4429-a8de-6a7096d39603" class="bulleted-list"><li style="list-style-type:disc">Linear Embedding: 각 Patch를 1D 벡터로 평탄화하고, Linear Layer를 통해 차원을 변환한다. 해당 단계에서, 인접한 Patch를 결합하여 하나의 큰 Patch로 만들거나(즉, Merging), 차원을 증가시키는 역할을 하여 더 높은 수준의 특징을 포착할 수 있게 한다.</li></ul><p id="a3006532-1da9-438c-8d49-0c81514bdccc" class="">→ 이미지 내의 다양한 크기의 객체를 효과적으로 처리하고,  계산 효율성을 높이며, 서로 다른 스케일에서의 특징을 학습할 수 있는 계층적 구조를 구축</p><p id="cff90ac7-0a13-40b6-8c68-40a32dbb5b98" class="">
+</p><ol type="1" id="45a1323d-7237-4681-9326-5b3318994417" class="numbered-list" start="2"><li>Swin Transformer Block</li></ol><ul id="3d923bee-b4e7-4e2c-8845-aa94578eb4c4" class="bulleted-list"><li style="list-style-type:disc">Shifted Window 기반의 Self-Attention: 이는 고정 크기의 Window 내에서만 Self-Attention을 계산함으로써, 더 효율적인 계산을 가능하게 합니다.</li></ul><ul id="fee9aaea-bd3e-471d-8f6f-b88b00d17243" class="bulleted-list"><li style="list-style-type:disc"> Swin Transformer는 기본 Window와 Shifted Window 방식을 번갈아가며 사용하여, Window 간의 정보 교환을 촉진하고 더 넓은 범위의 컨텍스트를 커버합니다.</li></ul><ul id="f5ac2fcb-3950-44f7-b026-cddab5de9f0c" class="bulleted-list"><li style="list-style-type:disc">Layer Normalization: 각 Sub-layer의 입력 앞에 적용되며, 모델의 안정성과 학습 속도를 향상</li></ul><ul id="8aa527b9-5ead-4b12-bbf0-96bd73973dd5" class="bulleted-list"><li style="list-style-type:disc">W-MSA(Window based Multihead Self Attention): 이미지를 고정된 크기의 여러 개의 window로 나누고, 각 window 내에서 Multihead Self Attention을 계산<br/>→ local pattern과 특징을 효과적으로 학습<br/></li></ul><ul id="f43a7d57-b2aa-4158-bd7b-654cb162f37b" class="bulleted-list"><li style="list-style-type:disc">SW-MSA(Shifted Window based Multihead Self Attention): 전체 이미지를 window로 나눈 뒤, 각 window의 위치를 일정량 shift(이동)시킨 후 Multihead Self Attention을 계산<br/>→ 경계에서 정보가 격리되는 것을 방지하고, 인접 window 간의 통합된 context 정보를 활용 가능<br/></li></ul><ul id="d63a72ac-23e7-4138-8e5e-4eb479caead0" class="bulleted-list"><li style="list-style-type:disc">MLP (Multi-Layer Perceptron): Non-linear 변환을 수행하는 데 사용되며, 레이어 간의 비선형 결합을 가능하게 한다.</li></ul><ul id="3d430727-60ac-4ebd-a45d-9f23d257dc44" class="bulleted-list"><li style="list-style-type:disc">Skip Connection: 입력을 출력에 직접 더하는 구조로, 모델의 깊이가 깊어질수록 발생할 수 있는 학습 문제를 완화</li></ul><figure id="479e1452-7544-42b7-9b0e-434ab7739607"><a href="https://kyujinpy.tistory.com/14" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">[Swin Transformer 논문 리뷰] - Swin Transformer: Hierarchical Vision Transformer using Shifted Windows</div><div class="bookmark-description">*Swin Transformer 논문 리뷰를 위한 글이고, 질문이 있으시다면 언제든지 댓글로 남겨주세요! Swin Transformer 논문: [2103.14030] Swin Transformer: Hierarchical Vision Transformer using Shifted Windows (arxiv.org) Swin Transformer: Hierarchical Vision Transformer using Shifted Windows This paper presents a new vision Transformer, called Swin Transformer, that capably serves as a general-purpose backbone for computer vision. Challen..</div></div><div class="bookmark-href"><img src="https://t1.daumcdn.net/tistory_admin/favicon/tistory_favicon_32x32.ico" class="icon bookmark-icon"/>https://kyujinpy.tistory.com/14</div></div><img src="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&amp;fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FrBUYK%2FbtrURU5bsd2%2FL346nkf5fBsKZ474UUlxz0%2Fimg.png" class="bookmark-image"/></a></figure><h3 id="756db41b-477a-4ae0-b1db-fbda83fb1962" class="">Future Work</h3><ul id="d73d3467-9473-4cfa-b345-cf5eb45b7737" class="bulleted-list"><li style="list-style-type:disc">모델 구조와 학습 방법의 확장: 대용량 데이터셋과 더 큰 모델을 활용하여 성능을 더욱 향상시키기</li></ul><ul id="3198afc6-76f2-41ba-a9fe-84d70f264322" class="bulleted-list"><li style="list-style-type:disc">새로운 domain 및 task로의 적용: Swin Transformer 아키텍처를 vision task 외에 다른 domain에 적용하여 활용 범위를 넓혀보기</li></ul><ul id="9e93cfac-124a-4b98-af41-d7f12f15bb8b" class="bulleted-list"><li style="list-style-type:disc">결합 모델: CNN과 Transformer를 결합한 모델로, 각각의 장점을 활용하여 더 효과적인 이미지 인식 모델을 개발하는 연구가 진행 가능</li></ul><p id="36e0da0e-7153-4681-9695-3fb9720c9faa" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
