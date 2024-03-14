@@ -1,6 +1,17 @@
-# Week9. Recommender System Basic
+# Week9. Recommender System Basic, Generative Basic
+## Part 1. Recommender System Basic
 
 `u.data` 데이터를 사용해 `tobigs_week9_movielens_withmf.ipynb` 파일의 빈칸을 채워주세요.
+
+## Part 2. Generative Basic
+
+`HW_GenBasic(20240313).ipynb` 파일에서,
+
+- [ ] VAE(Variational Autoencoder) 구현하기
+- [ ] (Optional) [Beta-VAE](https://openreview.net/forum?id=Sy2fzU9gl)를 참고하여,
+  - [ ] Pre-made loss 변형하기
+  - [ ] Sample 시각화하기
+  - [ ] Sample data의 fidelity 개선 여부 확인하기
 
 ## 제출 방법
 1. 본인의 이름으로 branch를 생성합니다.
