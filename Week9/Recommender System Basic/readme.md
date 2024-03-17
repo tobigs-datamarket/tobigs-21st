@@ -1,6 +1,11 @@
 # Week9. Recommender System Basic
 
 `u.data` 데이터를 사용해 `tobigs_week9_movielens_withmf.ipynb` 파일의 빈칸을 채워주세요.
+(실행하실때 이전 버전의 파일을 받으신 분들은 
+`# from src.preprocess.ml100k import ML100k`
+`# from src.models.mf import MF`
+`# from src.utils.trainer import Trainer`
+이렇게 3줄을 주석처리 하고 진행해주세요!!)
 
 ## 제출 방법
 1. 본인의 이름으로 branch를 생성합니다.
