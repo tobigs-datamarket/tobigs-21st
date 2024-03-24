@@ -1,5 +1,7 @@
 # Week10. Generative Advanced, Speech
 
+Update(2024.03.35.): Speech 과제 제출 기한 ~3/31(일)로 변경
+
 ## Part 1. Generative Advanced
 
 과제 1, 2 중 하나를 선택해, 본인의 블로그나 노션, word 파일, PDF 등 원하는 방식으로 작성해주세요!
@@ -92,4 +94,5 @@
 6. `이름(기수) - n주차 과제`라는 타이틀로 `Pull Request`를 등록합니다. 예) 김투빅(21기) - 1주차 과제
 
 ## 제출 기한
-⏰ ~ 3/26(화) 23:59
+⏰ Generative Advanced: ~3/26(화) 23:59
+⏰ Speech: ~ 3/31(화) 23:59
