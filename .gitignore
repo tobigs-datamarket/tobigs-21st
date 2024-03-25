@@ -244,3 +244,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,jupyternotebooks,python,windows
+
+### Custom ###
+# 10주차 Speech assignment 데이터 유출을 방지하고자 함
+*.wav
